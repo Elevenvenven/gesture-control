@@ -1,5 +1,9 @@
 # Gesture Control
 
+<p align="center">
+  <img src="cover.png" alt="Gesture Control" width="600">
+</p>
+
 用电脑内置摄像头识别手势，控制滚动、鼠标移动、点击和页面前进/后退。
 
 ## 安装

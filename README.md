@@ -105,12 +105,65 @@ python gesture_scroll.py --threshold 0.06 --frames 5
 - 离散操作后有 0.35s 冷却，避免误触
 - 界面边框颜色 = 当前模式，顶部显示模式名和提示
 
+## 个人手势意图模型（gesture-intent-control）
+
+除了即开即用的固定手势识别，本仓库还包含一个**个性化手势意图模型**子模块。你可以录制自己的手势习惯，训练一个轻量分类器来理解你的动作意图。
+
+```bash
+# 进入子模块目录
+cd gesture-intent-control
+pip install -r requirements.txt
+
+# 1. 录制手势数据（每个标签 20~50 条）
+python -m gesture_intent_control record --label click --seconds 1.2 --repeats 30
+python -m gesture_intent_control record --label scroll_down --seconds 1.2 --repeats 30
+
+# 2. 训练模型
+python -m gesture_intent_control train
+
+# 3. 实时运行（先安全模式看识别结果）
+python -m gesture_intent_control run
+
+# 确认稳定后，开启真实操作
+python -m gesture_intent_control run --execute
+```
+
+### 支持的意图标签
+
+`click` / `double_click` / `right_click` / `scroll_up` / `scroll_down` / `nav_back` / `nav_forward` / `cancel` / `pause`
+
+可在 `gesture-intent-control/configs/intents.yaml` 中自定义。
+
+### 与固定手势识别的区别
+
+| 固定手势（gesture_scroll.py） | 个人意图模型（gesture-intent-control） |
+|------|------|
+| 规则驱动，手势固定 | 数据驱动，适配你的习惯 |
+| 即开即用 | 需先录制 + 训练 |
+| 适合通用场景 | 适合个性化操作偏好 |
+
+---
+
+## 项目结构
+
 ```
 gesturepro/
-├── gesture_scroll.py   # 主程序
-├── interaction.py      # 交互状态机 ← 新
-├── gestures.py         # 手势识别
-└── controller.py       # 鼠标/键盘
+├── gesture_scroll.py           # 主程序
+├── interaction.py              # 交互状态机
+├── gestures.py                 # 手势识别
+├── controller.py               # 鼠标/键盘
+├── gesture-intent-control/     # 个人意图模型子模块
+│   ├── src/gesture_intent_control/
+│   │   ├── recorder.py         # 手势采样录制
+│   │   ├── train.py            # 模型训练
+│   │   ├── realtime.py         # 实时推理
+│   │   ├── features.py         # 时序特征
+│   │   └── ...
+│   ├── configs/intents.yaml    # 意图映射配置
+│   └── README.md
+├── requirements.txt
+├── cover.png
+└── README.md
 ```
 
 ## 升级说明（v4 — 精准识别++）

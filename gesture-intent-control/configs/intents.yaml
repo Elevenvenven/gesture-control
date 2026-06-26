@@ -1,0 +1,47 @@
+# 意图到动作的映射。
+# action 支持：
+#   click, double_click, right_click, scroll, hotkey, pause, noop
+#
+# 默认建议先不开真实执行，使用 run 的安全模式观察模型预测。
+
+intents:
+  click:
+    action: click
+    cooldown: 0.45
+
+  double_click:
+    action: double_click
+    cooldown: 0.65
+
+  right_click:
+    action: right_click
+    cooldown: 0.65
+
+  scroll_up:
+    action: scroll
+    amount: 5
+    cooldown: 0.22
+
+  scroll_down:
+    action: scroll
+    amount: -5
+    cooldown: 0.22
+
+  nav_back:
+    action: hotkey
+    keys: ["command", "["]
+    cooldown: 0.9
+
+  nav_forward:
+    action: hotkey
+    keys: ["command", "]"]
+    cooldown: 0.9
+
+  cancel:
+    action: noop
+    cooldown: 0.4
+
+  pause:
+    action: pause
+    cooldown: 1.0
+
